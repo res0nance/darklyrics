@@ -39,4 +39,6 @@ def get_lyrics(artist, song):
     lyric = lyrics[song_number]
     lyric = lyric[:lyric.find('<h3>')] # remove tail
     lyric = lyric.replace('<br/>', '\n')
+    lyric = lyric.replace('</i>', '')
+    lyric = lyric.replace('<i>', '')
     return lyric
