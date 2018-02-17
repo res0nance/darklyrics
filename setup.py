@@ -11,5 +11,7 @@ setup(name='darklyrics',
       author_email='raihaanhimself@gmail.com',
       url='http://github.com/res0nance/darklyrics',
       packages=['darklyrics'],
+      setup_requires=['pytest-runner'],
       install_requires=['beautifulsoup4', 'requests'],
+      tests_require=['pytest'],
       keywords='darklyrics lyric lyrics song api')
