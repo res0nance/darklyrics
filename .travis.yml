@@ -6,8 +6,7 @@ python:
 - '3.6'
 install: 
   - python setup.py install
-  - pip install python-coveralls
-  - pip install coverage
+  - pip install coveralls
 script:
   - coverage run --source=darklyrics setup.py test
   - coveralls
