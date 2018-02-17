@@ -8,7 +8,6 @@ install:
   - python setup.py install
   - pip install python-coveralls
   - pip install coverage
-  - pip install nose
 script:
   - coverage run --source=darklyrics setup.py test
   - coveralls
