@@ -4,9 +4,17 @@ python:
 - '3.4'
 - '3.5'
 - '3.6'
-install: 
-  - python setup.py install
-  - pip install coveralls
+install:
+- python setup.py install
+- pip install coveralls
 script:
-  - coverage run --source=darklyrics setup.py test
-  - coveralls
+- coverage run --source=darklyrics setup.py test
+- coveralls
+deploy:
+  provider: pypi
+  user: res0nance
+  password: 
+    secure: Ri4saf+R8u897b+zPMJ6WuBgmGbm3KAEGpr2WX1ZOyDgkCRo77AuvwWbvrttlx6XVSIUYxyde2wbngTyArM2xlewOCLcvTnSM7jEEoh5ENbWMskAICjG2TmSu/QyA7BEg/uPfxBczqZi81WEh3TfeSXdpeDL5A+bx0zXKW8AGXP7YIxONvqijXbvgJiYhAmZiCSEJc1vhn+DcatVjt+jewyojDgswStMLzbyTeTSapXWHezlokTQazJDFv/hLzusWdtE6hO1PxLmrhLTtaQWHOuPdBYdhckXmuLZldlDWNdGR01QTZ5bzfoxY4zcLElmaO5z4Cx+cwEkMJmi8pIhg99D0YaaTBTK1KIGTiYLVztxFv0lw3iVPTFbAW4zkZYmOJ/1yRyJUpFEKbgU1tda6wFphtLOCbiXo3vtpJh0FW8hLCLc5dw7OCXRhrbd3FrHAtoL+sifPI24MmeF/V2TPcLkT23A24j2TipfXVDYghFzq1aYXkxpmoplskt5PpQZIQQWj2f6jHoY4+YGmztRopkVa1A/p7SQL5CcVqT3TI4xB8GOaUfYafhsQgLew6f7g3OuD5qlK4RYJWyJUopWkaW8DaQk817jQma8omdfmheGJLe2Dh15dwGdQBgZCq01whQ2Pfd4HJSqN1f6N3w+jgCeajntj6vuvUUcg8Z8C7A=
+  on:
+    tags: true
+    branch: master
