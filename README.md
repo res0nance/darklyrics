@@ -3,6 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/res0nance/darklyrics/badge.svg?branch=master)](https://coveralls.io/github/res0nance/darklyrics?branch=master)
 [![PyPI version](https://badge.fury.io/py/darklyrics.svg)](https://badge.fury.io/py/darklyrics)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 Python API for obtaining song lyrics from [darklyrics].
 
 [darklyrics]: http://www.darklyrics.com/
@@ -33,7 +34,7 @@ Currently the following python versions are supported
 - 3.6
 
 ## API
-Currently only 1 API is supported `get_lyrics`.
+Currently only 1 API is supported `get_lyrics`. On success it returns lyrics on failure it will raise a `LyricsNotFound` exception.
 
 ```
 import darklyrics
