@@ -8,11 +8,11 @@ class LyricsNotFound(Exception):
         super(LyricsNotFound,self).__init__()
 
 
-def get_search_url(artist, song):
+def get_search_url(song, artist):
     url = __BASE_URL__ + 'search?q=' + artist + '+' + song
     return url
 
-def get_lyric_url(artist, song):
+def get_lyric_url(song, artist):
     url = get_search_url(artist, song)
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -25,8 +25,8 @@ def get_lyric_url(artist, song):
                 return link
     raise LyricsNotFound()
 
-def get_lyrics(artist, song):
-    lyric_url = get_lyric_url(artist,song)
+def get_lyrics(song, artist=''):
+    lyric_url = get_lyric_url(song,artist)
     index = lyric_url.find('#')
     song_number = int(lyric_url[index+1:])
     album_url = lyric_url[:index]
@@ -38,7 +38,11 @@ def get_lyrics(artist, song):
     lyrics = lyrics_div.prettify().split('</h3>') # split into separate lyrics
     lyric = lyrics[song_number]
     lyric = lyric[:lyric.find('<h3>')] # remove tail
+    #Set linebreaks
     lyric = lyric.replace('<br/>', '\n')
+    #Remove italic
     lyric = lyric.replace('</i>', '')
     lyric = lyric.replace('<i>', '')
+    #Remove trailing divs
+    lyric = lyric.split('<div')[0]
     return lyric

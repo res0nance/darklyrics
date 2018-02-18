@@ -40,7 +40,8 @@ Currently only 1 API is supported `get_lyrics`. On success it returns lyrics on 
 import darklyrics
 
 try:
-    print(darklyrics.get_lyrics(artist,song))
+    print(darklyrics.get_lyrics(song,artist))
+    print(darklyrics.get_lyrics(song))
 except darklyrics.LyricsNotFound:
     print('No lyrics found')
 ```
