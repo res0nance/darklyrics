@@ -24,7 +24,7 @@ darklyrics is package freely available on [PyPI] and can easily be installed via
 pip install darklyrics
 ````
 
-[PyPI]: https://pypi.python.org/pypi/darklyrics/0.1.1
+[PyPI]: https://pypi.python.org/pypi/darklyrics
 
 ## Support
 Currently the following python versions are supported
