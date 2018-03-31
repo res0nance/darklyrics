@@ -15,6 +15,11 @@ def get_search_url(song, artist):
     return url
 
 
+def get_artist_url(artist):
+    artist = artist.lower().replace(' ', '')
+    return f'{__BASE_URL__}{artist[0]}/{artist}.html'
+
+
 def get_lyric_url(song, artist):
     url = get_search_url(artist, song)
     response = requests.get(url)
@@ -53,10 +58,11 @@ def get_lyrics(song, artist=''):
 
 
 def get_songs(artist):
-    artist = artist.lower()
-    url = f'{__BASE_URL__}{artist[0]}/{artist}.html'
+    url = get_artist_url(artist)
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
+    if 'not Found' in soup.title.string:
+        raise LyricsNotFound()
     links = soup.find_all('a')
     result = []
     for link in links:
@@ -65,9 +71,31 @@ def get_songs(artist):
     return result
 
 
-def get_all_lyrics(artist):
-    songs = get_songs(artist)
-    result = ''
-    for song in songs:
-        result = f'{result}\n{get_lyrics(song, artist)}'
+def get_albums(artist):
+    """A way to scrape all lyrics for an artist saving a lot of requests."""
+    url = get_artist_url(artist)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    if 'not Found' in soup.title.string:
+        raise LyricsNotFound()
+    album_headlines = soup.find_all('h2')
+    result = []
+    for line in album_headlines:
+        result.append(line.text.split('"')[1])
     return result
+
+
+def get_all_lyrics(artist):
+    albums = get_albums(artist)
+    result = ''
+    for album in albums:
+        url = f'{__BASE_URL__}lyrics/{artist.lower().replace(" ", "")}{album.lower().replace(" ", "")}/'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content)
+        lyrics_div = soup.find('div', class_='lyrics')
+        lyrics = lyrics_div.prettify().split('</h3>')  # split into separate lyrics
+        print(lyrics)
+    return result
+
+
+print(get_all_lyrics("orphaned land"))
