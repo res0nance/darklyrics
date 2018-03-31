@@ -1,16 +1,19 @@
 from bs4 import BeautifulSoup
 import requests
+import re
 
 __BASE_URL__ = 'http://www.darklyrics.com/'
 
+
 class LyricsNotFound(Exception):
     def __init__(self):
-        super(LyricsNotFound,self).__init__()
+        super(LyricsNotFound, self).__init__()
 
 
 def get_search_url(song, artist):
     url = __BASE_URL__ + 'search?q=' + artist + '+' + song
     return url
+
 
 def get_lyric_url(song, artist):
     url = get_search_url(artist, song)
@@ -25,24 +28,46 @@ def get_lyric_url(song, artist):
                 return link
     raise LyricsNotFound()
 
+
 def get_lyrics(song, artist=''):
-    lyric_url = get_lyric_url(song,artist)
+    lyric_url = get_lyric_url(song, artist)
     index = lyric_url.find('#')
-    song_number = int(lyric_url[index+1:])
+    song_number = int(lyric_url[index + 1:])
     album_url = lyric_url[:index]
 
     response = requests.get(__BASE_URL__ + album_url)
-    soup = BeautifulSoup(response.content,'html.parser')
+    soup = BeautifulSoup(response.content, 'html.parser')
 
     lyrics_div = soup.find('div', class_='lyrics')
-    lyrics = lyrics_div.prettify().split('</h3>') # split into separate lyrics
+    lyrics = lyrics_div.prettify().split('</h3>')  # split into separate lyrics
     lyric = lyrics[song_number]
-    lyric = lyric[:lyric.find('<h3>')] # remove tail
-    #Set linebreaks
+    lyric = lyric[:lyric.find('<h3>')]  # remove tail
+    # Set linebreaks
     lyric = lyric.replace('<br/>', '')
-    #Remove italic
+    # Remove italic
     lyric = lyric.replace('</i>', '')
     lyric = lyric.replace('<i>', '')
-    #Remove trailing divs
+    # Remove trailing divs
     lyric = lyric.split('<div')[0]
     return lyric
+
+
+def get_songs(artist):
+    artist = artist.lower()
+    url = f'{__BASE_URL__}{artist[0]}/{artist}.html'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    links = soup.find_all('a')
+    result = []
+    for link in links:
+        if 'html#' in link.attrs['href']:
+            result.append(link.text)
+    return result
+
+
+def get_all_lyrics(artist):
+    songs = get_songs(artist)
+    result = ''
+    for song in songs:
+        result = f'{result}\n{get_lyrics(song, artist)}'
+    return result
