@@ -89,12 +89,17 @@ def get_all_lyrics(artist):
     albums = get_albums(artist)
     result = ''
     for album in albums:
-        url = f'{__BASE_URL__}lyrics/{artist.lower().replace(" ", "")}{album.lower().replace(" ", "")}/'
+        url = f'{__BASE_URL__}lyrics/{artist.lower().replace(" ", "")}/{album.lower().replace(" ", "")}.html'
         response = requests.get(url)
-        soup = BeautifulSoup(response.content)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        print(soup)
         lyrics_div = soup.find('div', class_='lyrics')
         lyrics = lyrics_div.prettify().split('</h3>')  # split into separate lyrics
-        print(lyrics)
+        for lyric in lyrics:
+            lyric = lyric[:lyric.find('<h3>')]
+            lyric = lyric.replace('</i>', '').replace('<i>', '')
+            lyric = lyric.split('<div')[0]
+            result += lyric
     return result
 
 
