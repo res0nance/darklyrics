@@ -1,6 +1,5 @@
-from bs4 import BeautifulSoup
 import requests
-import re
+from bs4 import BeautifulSoup
 
 __BASE_URL__ = 'http://www.darklyrics.com/'
 
@@ -89,18 +88,23 @@ def get_all_lyrics(artist):
     albums = get_albums(artist)
     result = ''
     for album in albums:
-        url = f'{__BASE_URL__}lyrics/{artist.lower().replace(" ", "")}/{album.lower().replace(" ", "")}.html'
+        album = album.lower().replace(" ", "").replace("'", "")
+        url = f'{__BASE_URL__}lyrics/{artist.lower().replace(" ", "")}/{album}.html'
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
-        print(soup)
         lyrics_div = soup.find('div', class_='lyrics')
-        lyrics = lyrics_div.prettify().split('</h3>')  # split into separate lyrics
-        for lyric in lyrics:
-            lyric = lyric[:lyric.find('<h3>')]
-            lyric = lyric.replace('</i>', '').replace('<i>', '')
-            lyric = lyric.split('<div')[0]
-            result += lyric
+        try:
+            lyrics = lyrics_div.prettify().split('</h3>')  # split into separate lyrics
+            for lyric in lyrics:
+                lyric = lyric[:lyric.find('<h3>')]  # remove tail
+                # Set linebreaks
+                lyric = lyric.replace('<br/>', '')
+                # Remove italic
+                lyric = lyric.replace('</i>', '')
+                lyric = lyric.replace('<i>', '')
+                # Remove trailing divs
+                lyric = lyric.split('<div')[0]
+                result += lyric
+        except AttributeError:
+            pass
     return result
-
-
-print(get_all_lyrics("orphaned land"))
