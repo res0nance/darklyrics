@@ -45,15 +45,7 @@ def get_lyrics(song, artist=''):
     lyrics_div = soup.find('div', class_='lyrics')
     lyrics = lyrics_div.prettify().split('</h3>')  # split into separate lyrics
     lyric = lyrics[song_number]
-    lyric = lyric[:lyric.find('<h3>')]  # remove tail
-    # Set linebreaks
-    lyric = lyric.replace('<br/>', '')
-    # Remove italic
-    lyric = lyric.replace('</i>', '')
-    lyric = lyric.replace('<i>', '')
-    # Remove trailing divs
-    lyric = lyric.split('<div')[0]
-    return lyric
+    return process_lyric(lyric)
 
 
 def get_songs(artist):
@@ -96,15 +88,28 @@ def get_all_lyrics(artist):
         try:
             lyrics = lyrics_div.prettify().split('</h3>')  # split into separate lyrics
             for lyric in lyrics:
-                lyric = lyric[:lyric.find('<h3>')]  # remove tail
-                # Set linebreaks
-                lyric = lyric.replace('<br/>', '')
-                # Remove italic
-                lyric = lyric.replace('</i>', '')
-                lyric = lyric.replace('<i>', '')
-                # Remove trailing divs
-                lyric = lyric.split('<div')[0]
-                result += lyric
+                result += process_lyric(lyric)
         except AttributeError:
             pass
+    return result
+
+
+def process_lyric(lyric):
+    lyric = lyric[:lyric.find('<h3>')]  # remove tail
+    # Set linebreaks
+    lyric = lyric.replace('<br/>', '')
+    # Remove italic
+    lyric = lyric.replace('</i>', '')
+    lyric = lyric.replace('<i>', '')
+    # Remove trailing divs
+    lyric = lyric.split('<div')[0]
+    result = ''
+    split_lyric = lyric.splitlines()
+    for line_number in range(len(split_lyric) - 1):
+        line = split_lyric[line_number].rstrip()
+        next_line = split_lyric[line_number + 1].rstrip()
+        last_line = split_lyric[max(line_number - 1, 0)].rstrip()
+        # Remove duplicate blank lines
+        if line is not '' or (line is '' and next_line is '' and last_line is not ''):
+            result = f'{result}\n{line}'
     return result
