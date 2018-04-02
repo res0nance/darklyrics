@@ -109,3 +109,5 @@ ENV/
 \.idea/vcs\.xml
 
 \.idea/workspace\.xml
+
+\.pytest_cache/

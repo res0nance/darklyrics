@@ -15,7 +15,7 @@ def get_search_url(song, artist):
 
 
 def get_artist_url(artist):
-    artist = artist.lower().replace(' ', '')
+    artist = artist.lower().replace(' ', '').replace('æ', 'e')
     return f'{__BASE_URL__}{artist[0]}/{artist}.html'
 
 
@@ -31,6 +31,27 @@ def get_lyric_url(song, artist):
             if link.find('#') != -1:
                 return link
     raise LyricsNotFound()
+
+
+def process_lyric(lyric):
+    lyric = lyric[:lyric.find('<h3>')]  # remove tail
+    # Set linebreaks
+    lyric = lyric.replace('<br/>', '')
+    # Remove italic
+    lyric = lyric.replace('</i>', '')
+    lyric = lyric.replace('<i>', '')
+    # Remove trailing divs
+    lyric = lyric.split('<div')[0]
+    result = ''
+    split_lyric = lyric.splitlines()
+    for line_number in range(len(split_lyric) - 1):
+        line = split_lyric[line_number].rstrip()
+        next_line = split_lyric[line_number + 1].rstrip()
+        last_line = split_lyric[max(line_number - 1, 0)].rstrip()
+        # Remove duplicate blank lines
+        if line is not '' or (line is '' and next_line is '' and last_line is not ''):
+            result = f'{result}\n{line}'
+    return result
 
 
 def get_lyrics(song, artist=''):
@@ -80,7 +101,7 @@ def get_all_lyrics(artist):
     albums = get_albums(artist)
     result = ''
     for album in albums:
-        album = album.lower().replace(" ", "").replace("'", "")
+        album = album.lower().replace(" ", "").replace("'", "").replace('æ', 'e')
         url = f'{__BASE_URL__}lyrics/{artist.lower().replace(" ", "")}/{album}.html'
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -91,25 +112,4 @@ def get_all_lyrics(artist):
                 result += process_lyric(lyric)
         except AttributeError:
             pass
-    return result
-
-
-def process_lyric(lyric):
-    lyric = lyric[:lyric.find('<h3>')]  # remove tail
-    # Set linebreaks
-    lyric = lyric.replace('<br/>', '')
-    # Remove italic
-    lyric = lyric.replace('</i>', '')
-    lyric = lyric.replace('<i>', '')
-    # Remove trailing divs
-    lyric = lyric.split('<div')[0]
-    result = ''
-    split_lyric = lyric.splitlines()
-    for line_number in range(len(split_lyric) - 1):
-        line = split_lyric[line_number].rstrip()
-        next_line = split_lyric[line_number + 1].rstrip()
-        last_line = split_lyric[max(line_number - 1, 0)].rstrip()
-        # Remove duplicate blank lines
-        if line is not '' or (line is '' and next_line is '' and last_line is not ''):
-            result = f'{result}\n{line}'
     return result

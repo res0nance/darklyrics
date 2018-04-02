@@ -1,7 +1,7 @@
-from darklyrics import get_lyrics, LyricsNotFound
 import pytest
 
-from darklyrics.darklyrics import get_songs
+from darklyrics import get_lyrics, LyricsNotFound
+from darklyrics.darklyrics import get_songs, get_all_lyrics
 
 
 def test_not_found():
@@ -16,7 +16,12 @@ def test_song_only():
 
 def test_get_songs():
     songs = get_songs("katatonia")
-    assert 'Criminal' in songs
+    assert 'Criminals' in songs
+
+
+def test_get_all_songs():
+    lyrics = get_all_lyrics('in vain')
+    assert 'Before it was torn by hands of man' in lyrics
 
 
 def test_integration():
