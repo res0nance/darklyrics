@@ -102,7 +102,7 @@ def get_all_lyrics(artist):
     albums = get_albums(artist)
     result = ''
     for album in albums:
-        album = album.lower().replace(" ", "").replace("'", "").replace('æ', 'e')
+        album = album.lower().replace(' ', '').replace("'", "").replace(u'æ', u'e')
         url = __BASE_URL__ + 'lyrics/' + artist.lower().replace(' ', '') + '/' + album + '.html'
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
