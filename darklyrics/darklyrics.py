@@ -15,8 +15,8 @@ def get_search_url(song, artist):
 
 
 def get_artist_url(artist):
-    artist = artist.lower().replace(' ', '').replace('æ', 'e')
-    return f'{__BASE_URL__}{artist[0]}/{artist}.html'
+    artist = artist.lower().replace(' ', '').replace(u'æ', 'e')
+    return __BASE_URL__ + artist[0] + '/' + artist + '.html'
 
 
 def get_lyric_url(song, artist):
@@ -50,7 +50,7 @@ def process_lyric(lyric):
         last_line = split_lyric[max(line_number - 1, 0)].rstrip()
         # Remove duplicate blank lines
         if line is not '' or (line is '' and next_line is '' and last_line is not ''):
-            result = f'{result}\n{line}'
+            result = result + '\n' + line
     return result
 
 
@@ -102,7 +102,7 @@ def get_all_lyrics(artist):
     result = ''
     for album in albums:
         album = album.lower().replace(" ", "").replace("'", "").replace('æ', 'e')
-        url = f'{__BASE_URL__}lyrics/{artist.lower().replace(" ", "")}/{album}.html'
+        url = __BASE_URL__ + 'lyrics/' + artist.lower().replace(' ', '') + '/' + album + '.html'
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
         lyrics_div = soup.find('div', class_='lyrics')

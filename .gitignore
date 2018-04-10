@@ -111,3 +111,5 @@ ENV/
 \.idea/workspace\.xml
 
 \.pytest_cache/
+
+\.idea/codeStyles/Project\.xml
