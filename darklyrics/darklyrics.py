@@ -16,7 +16,7 @@ def get_search_url(song, artist):
 
 
 def get_artist_url(artist):
-    artist = artist.lower().replace(' ', '').replace(u'æ', 'e')
+    artist = artist.lower().replace(' ', '').replace(u'æ', u'e')
     return __BASE_URL__ + artist[0] + '/' + artist + '.html'
 
 
