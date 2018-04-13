@@ -35,4 +35,4 @@ def test_get_albums():
 
 def test_get_albums_fail():
     with pytest.raises(LyricsNotFound):
-        get_songs("fakeartist")
+        get_albums("fakeartist")
