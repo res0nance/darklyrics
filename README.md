@@ -34,7 +34,7 @@ Currently the following python versions are supported
 - 3.6
 
 ## API
-Currently only 1 API is supported `get_lyrics`. On success it returns lyrics on failure it will raise a `LyricsNotFound` exception.
+Currently only 4 API is supported `get_lyrics`. On success it returns lyrics on failure it will raise a `LyricsNotFound` exception.
 
 ```
 import darklyrics
@@ -42,6 +42,9 @@ import darklyrics
 try:
     print(darklyrics.get_lyrics(song,artist))
     print(darklyrics.get_lyrics(song))
+    print(darklyrics.get_songs(artist))
+    print(darklyrics.get_albums(artist))
+    print(darklyrics.get_all_lyrics(artist))
 except darklyrics.LyricsNotFound:
     print('No lyrics found')
 ```
