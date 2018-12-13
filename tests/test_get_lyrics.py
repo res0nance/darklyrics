@@ -42,3 +42,20 @@ def test_get_albums():
 def test_get_albums_fail():
     with pytest.raises(LyricsNotFound):
         get_albums("fakeartist")
+
+        
+def test_get_songs_album():
+    """Check that a song from album is returned in the array"""
+    arr = get_songs("kayo dot", "Choirs Of The Eye")
+    assert 'Marathon' in arr
+
+def test_get_songs_album_fail():
+    """Check that an exception is thrown when artist doesn't exist"""
+    with pytest.raises(LyricsNotFound):
+        get_songs("fakeartist", "South Of Heaven")
+
+
+def test_get_songs_album_fail2():
+    """Check for songs not on album"""
+    arr = get_songs("Slayer", "South Of Heaven")
+    assert "Raining Blood" not in arr
