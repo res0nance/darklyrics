@@ -84,6 +84,27 @@ def get_songs(artist):
     return result
 
 
+def get_songs(artist, album):
+    """Will allow a user to return an array of all songs from specific album."""
+    # This will still cuase some problems if a band has multiple albums with the same substring.
+    url = get_artist_url(artist)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    if 'not Found' in soup.title.string:
+        raise LyricsNotFound()
+    album_list = soup.find_all("div", class_="album")
+    for a in album_list:
+        stew_str = str(a.strong)
+        if stew_str.find(str(album)) != -1:
+            soup = BeautifulSoup(str(a), 'html.parser')
+    result = []
+    links = soup.find_all('a')
+    for link in links:
+        if 'html#' in link.attrs['href']:
+            result.append(link.text)
+    return result
+
+
 def get_albums(artist):
     """A way to scrape all lyrics for an artist saving a lot of requests."""
     url = get_artist_url(artist)
