@@ -72,11 +72,11 @@ def get_lyrics(song, artist=''):
 
 def get_songs(artist, album=None):
     """Will allow a user to return an array of all songs from specific album."""
-    # This will still cuase some problems if a band has multiple albums with the same substring.
+    # This will still cause some problems if a band has multiple albums with the same substring.
+    url = get_artist_url(artist)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
     if album is not None:
-        url = get_artist_url(artist)
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
         if 'not Found' in soup.title.string:
             raise LyricsNotFound()
         album_list = soup.find_all("div", class_="album")
@@ -91,9 +91,6 @@ def get_songs(artist, album=None):
                 result.append(link.text)
         return result
     else:
-        url = get_artist_url(artist)
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
         if 'not Found' in soup.title.string:
             raise LyricsNotFound()
         links = soup.find_all('a')
