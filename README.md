@@ -29,12 +29,12 @@ pip install darklyrics
 ## Support
 Currently the following python versions are supported
 - 2.7
-- 3.4
 - 3.5
 - 3.6
+- 3.7
 
 ## API
-Currently only 4 API is supported `get_lyrics`. On success it returns lyrics on failure it will raise a `LyricsNotFound` exception.
+Currently only 4 APIs are supported `get_lyrics`, `get_songs`, `get_albums` and `get_all_lyrics`. On success it returns lyrics on failure it will raise a `LyricsNotFound` exception.
 
 ```
 import darklyrics
