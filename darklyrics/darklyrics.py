@@ -71,34 +71,30 @@ def get_lyrics(song, artist=''):
 
 
 def get_songs(artist, album=None):
-    """Will allow a user to return an array of all songs from specific album."""
-    # This will still cause some problems if a band has multiple albums with the same substring.
+    """ Will allow a user to return an array of all songs from an artist,
+        or all songs from an album if the album parameter is passed in.
+        It may still cause problems if an album has multiple albums with the same substring."""
     url = get_artist_url(artist)
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
+    if 'not Found' in soup.title.string:
+        raise LyricsNotFound()
+        
+    links = soup.find_all('a')
+    # If the album parameter is passed in, links finds all 'a' occurrences from html classes named 'album'.
     if album is not None:
-        if 'not Found' in soup.title.string:
-            raise LyricsNotFound()
         album_list = soup.find_all("div", class_="album")
         for a in album_list:
             stew_str = str(a.strong)
             if stew_str.find(str(album)) != -1:
                 soup = BeautifulSoup(str(a), 'html.parser')
-        result = []
         links = soup.find_all('a')
-        for link in links:
-            if 'html#' in link.attrs['href']:
-                result.append(link.text)
-        return result
-    else:
-        if 'not Found' in soup.title.string:
-            raise LyricsNotFound()
-        links = soup.find_all('a')
-        result = []
-        for link in links:
-            if 'html#' in link.attrs['href']:
-                result.append(link.text)
-        return result
+
+    result = []
+    for link in links:
+        if 'html#' in link.attrs['href']:
+            result.append(link.text)
+    return result
 
 
 def get_albums(artist):
