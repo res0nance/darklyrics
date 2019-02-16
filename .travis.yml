@@ -5,8 +5,8 @@ python:
 - '3.6'
 matrix:
   include:
-    - python: "3.7"
-      dist: xenial  # required for Python >= 3.7 (travis-ci/travis-ci#9069)
+  - python: '3.7'
+    dist: xenial
 install:
 - python setup.py install
 - pip install coveralls
@@ -21,4 +21,4 @@ deploy:
     branch: master
     python: '3.6'
   password:
-    secure: a0ZyREZcFQ9SzncUPcl43fATVMtPf4LQe39TlXfldPiYGooJkZpyRE+7lrNjjXr3SgH3mtUfwCZ0ai6arh+APWEyuAfhEDQwuggzrhihl+XAhGYmfwrth+tw/HOTza0om8XXHOYH8IBhR+x/TDJeuOi8q1IbBBFMIcTNe2yGbDFPNe43dJQCjynamb5wuE/eMrLwfyT6OVEZBXpUBVRY4XURv6pRXzxleVuDUJbYPZr3SYF63UbIF5f9MJtRHcVDg7CDlH3VQ35JhlNyVqf233JBeHNnYE1U2UkkTh1Kl4rDiQMxUkUVOI/ITzeNXCGYMcvMY8ly1m1cWmt5CzCEI34JAYwYZ/4c7OmFVvi1KDbjC8iKaqylaGO7RfiFaAkO3123MWAlIX64VluPvDyTqoQRc0mStWQAh6RyeQzyD3upK11JsG/3flwcM5L++Gk3c6pkydaIze6of0w/CrBfDLmRO6dATB6km3YOEFyAprQrvFEX5NZqxMXbDo9SyPi4sAGtwPzo0/Sx8Df7doOHtshB1bPoq1az/ui+SQ8CNcp6ybK9AkeiRLiyD/0vFQbHqjjUQyS1eAS6j7OhG2MvA6x+o2Qja6b0b5ru+ThZV/aN0IfUpiQnx5SFTnOKFtpsJbmBtf2ppTxwJeobaC7js0QgyCSICBUU88Kmf65OX10=
+    secure: EZSPQFN0IJe3qBzzZvu3rlzb5fgcHkILOl4+o+Tub5+WOUeUsvjADZuWf47TzbwO80wMEbLy/DdiSt69E0F+BHra690MGofpyk5qMYuYiAfavYIJVe/ua0Q+5WLabwpr78vMR6FXFho224yYwApYREiPa16nxm91j2tRYZCYrIkAbjk0J9p+kKn1XPSXkT+C4es4jC0iaMLn7nA+G2HfAR+NzeSDV84khsK+bUNAwGjsy/vUqgtzJFcVSwP8DPxcQ3NrPECTkq4eWM8fye1NLTCyszMNLQQDGnxyVYqPK3f8r8G8jr5++KgeVxg2dBFj4/D/V6IVOjOO5AXG3J6eWDc1FMSym5Ry1valx1gLzWhZrebKvDHQkOGl3fZdDKECsqqf95VoesEaecve+JxB8NVEL6R/zCEZ7u4Mn78njjuN1hERgsMeBvwlj5+yUmvjkmdHrX4t9ejWx2zOpaEHblTwM1PVIfbfU0ubd0wlZcUhYkqK63IkoskAxPfmEOg4sv0nBh05vV+CIEm4KoTRblvTyPD+6JtesuqyYT6dUnUw9/dcOZtqapjv9w4vUG5UAJACqc4X60Ckv0un+GVwYe956XrT2wqvDrqN4/gpn0oDetPdMSKswzzpKwzCGRFxHzwId7QK68/I5IeQkpCJ4ae0flt3XDOHKU67lIn8gVo=
