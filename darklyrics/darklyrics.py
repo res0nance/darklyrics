@@ -73,7 +73,7 @@ def get_lyrics(song, artist=''):
 def get_songs(artist, album=None):
     """ Will allow a user to return an array of all songs from an artist,
         or all songs from an album if the album parameter is passed in.
-        It may still cause problems if an album has multiple albums with the same substring."""
+        It may still cause problems if an artist has multiple albums with the same substring."""
     url = get_artist_url(artist)
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
