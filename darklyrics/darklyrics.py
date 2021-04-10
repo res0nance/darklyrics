@@ -79,7 +79,7 @@ def get_songs(artist, album=None):
     soup = BeautifulSoup(response.content, 'html.parser')
     if 'not Found' in soup.title.string:
         raise LyricsNotFound()
-        
+
     links = soup.find_all('a')
     # If the album parameter is passed in, links finds all 'a' occurrences from html classes named 'album'.
     if album is not None:
@@ -107,7 +107,10 @@ def get_albums(artist):
     album_headlines = soup.find_all('h2')
     result = []
     for line in album_headlines:
-        result.append(line.text.split('"')[1])
+        if 'non-album songs:' in line:
+            result.append('nonalbumsongs')
+        else:
+            result.append(line.text.split('"')[1])
     return result
 
 
